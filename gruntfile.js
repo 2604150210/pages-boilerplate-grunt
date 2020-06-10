@@ -91,10 +91,6 @@ module.exports = grunt => {
 
     uglify: {
       main: {
-        // files: {
-        //   'dist/scipts/main.js': ['temp/assets/scripts/main.js'],
-        //   'dist/scipts/vendor.js': ['temp/assets/scripts/vendor.js']
-        // }
         files: [{
           expand: true,
           cwd: 'temp/',
@@ -172,14 +168,6 @@ module.exports = grunt => {
           dest: 'dist/'
         }]
       },
-      // other: {
-      //   files: [{
-      //     expand: true,
-      //     cwd: 'temp/',
-      //     src: ['**/*.html', 'assets/styles/', 'assets/scripts/'],
-      //     dest: 'dist/'
-      //   }]
-      // }
     },
     watch: {
       js: {
@@ -195,15 +183,18 @@ module.exports = grunt => {
         tasks: ['web_swig', 'bs-reload']
       }
     },
-    useref: {
-      html: 'temp/**/*.html',
-      temp: 'dist'
-    },
+    
     ghDeploy: {
-    	repository: 'git@github.com:2604150210/pages-boilerplate-grunt.git',
-    	branch: grunt.option('branch') || 'gh-pages',
-    	deployPath: 'dist',
-    	message: 'Auto deplyment ' + grunt.template.today()
+      options: {
+        repository: 'https://github.com/2604150210/pages-boilerplate-grunt.git',
+        deployPath: 'dist',
+       	branch: grunt.option('branch') || 'gh-pages',
+    	  message: 'Auto deplyment ' + grunt.template.today()
+    },
+    	// repository: 'https://github.com/2604150210/pages-boilerplate-grunt.git',
+    	// branch: grunt.option('branch') || 'gh-pages',
+    	// deployPath: 'dist',
+    	// message: 'Auto deplyment ' + grunt.template.today()
     }
   })
 
@@ -279,5 +270,7 @@ module.exports = grunt => {
   grunt.registerTask('start', ['compile', 'watch'])
 
   grunt.registerTask('build', ['clean', 'compile', 'jal-useref', 'image', 'uglify', 'cssmin', 'htmlmin', 'copy'])
+
+  grunt.registerTask('deploy', ['ghDeploy'])
 
 }
